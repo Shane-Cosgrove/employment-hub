@@ -1,17 +1,14 @@
 {
   "name": "employment-hub",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Distributed systems project for SDG 8 using Node.js and gRPC",
+  "main": "client/client.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "registry": "node services/registryService.js",
+    "job": "node services/jobService.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
-    "@grpc/grpc-js": "^1.14.3",
+    "@grpc/grpc-js": "^1.14.1",
     "@grpc/proto-loader": "^0.8.0",
     "express": "^5.2.1"
   }

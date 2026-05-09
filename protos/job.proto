@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package job;
+
+service JobService {
+    rpc RegisterJobSeeker (JobSeekerRequest) returns (JobSeekerResponse);
+
+    rpc PostJob (JobRequest) returns (JobResponse);
+
+    rpc FindMatches (MatchRequest) returns (stream MatchResponse);
+}
+
+message JobSeekerRequest {
+    string job_seeker_id = 1;
+    string name = 2;
+    repeated string skills = 3;
+}
+
+message JobSeekerResponse {
+    string message = 1;
+}
+
+message JobRequest{
+    string job_id = 1;
+    string title = 2;
+    repeated string required_skills = 3;
+}
+
+message JobResponse {
+    string message = 1;
+}
+
+message MatchRequest {
+    string job_seeker_id = 1;
+}
+
+message MatchResponse {
+    string job_id = 1;
+    string title = 2;
+    int32 match_score = 3;
+}
