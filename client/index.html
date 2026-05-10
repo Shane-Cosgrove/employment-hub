@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Employment Support Hub</title>
+</head>
+<body>
+	<h1>Employment Support Hub</h1>
+	<p>Smart distributed application supporting SDG 8: Decent Work and Economic Growth.</p>
+	
+	<h2>Service Controller</h2>
+	
+	<button onclick="callService('/test-job')">Test Job Matching Service</button>
+	<button onclick="callService('/test-interview')">Test Interview Scheduling Service</button>
+	<button onclick="callService('/test-skills')">Test Skills Recommendation Service</button>
+	
+	<h2>Output</h2>
+	<pre id="output">Results will appear here...</pre>
+	
+	<script>
+		async function callService(endpoint) {
+		const output = document.getElementById("output");
+		output.textContent = "Calling service...";
+		
+		try {
+		const response = await fetch(endpoint);
+		const data = await response.json();
+		output.textContent = JSON.stringify(data, null, 2);
+		} catch (error) {
+		output.textContent = "Error: " + error.message;
+		}
+	}
+	</script>
+	
+</body>
+</html>

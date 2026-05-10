@@ -47,6 +47,15 @@ function PostJob(call, callback) {
         });
     }
 
+    const existingJob = jobs.find((j) => j.job_id === job_id);
+
+    if (existingJob) {
+        return callback({
+            code: grpc.status.ALREADY_EXISTS,
+            message: "Job already exists",
+        });
+    }
+
     jobs.push({ job_id, title, required_skills });
     callback(null, { message: `Job ${title} posted successfully` });
 }
