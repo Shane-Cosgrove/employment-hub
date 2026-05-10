@@ -5,7 +5,8 @@
   "main": "client/client.js",
   "scripts": {
     "registry": "node services/registryService.js",
-    "job": "node services/jobService.js"
+    "job": "node services/jobService.js",
+    "interview": "node services/interviewService.js"
   },
   "dependencies": {
     "@grpc/grpc-js": "^1.14.1",

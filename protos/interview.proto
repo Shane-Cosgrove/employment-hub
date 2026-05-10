@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package interview;
+
+service InterviewService {
+    rpc CreateInterviewSlot (SlotRequest) returns (SlotResponse);
+    rpc BookInterview (BookingRequest) returns (BookingResponse);
+    rpc GetInterviewStatus (StatusRequest) returns (StatusResponse);
+}
+
+message SlotRequest {
+    string slot_id = 1;
+    string employer_id = 2;
+    string date_time = 3;
+}
+
+message SlotResponse {
+    string message = 1;
+}
+
+message BookingRequest {
+    string slot_id = 1;
+    string candidate_id = 2;
+}
+
+message BookingResponse {
+    string booking_id = 1;
+    string status = 2;
+    string message = 3;
+}
+
+message StatusRequest {
+    string booking_id = 1;
+}
+
+message StatusResponse {
+    string booking_id = 1;
+    string slot_id = 2;
+    string candidate_id = 3;
+    string status = 4;
+}
