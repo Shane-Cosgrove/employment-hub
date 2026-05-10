@@ -6,7 +6,8 @@
   "scripts": {
     "registry": "node services/registryService.js",
     "job": "node services/jobService.js",
-    "interview": "node services/interviewService.js"
+    "interview": "node services/interviewService.js",
+    "skills": "node services/skillsService.js"
   },
   "dependencies": {
     "@grpc/grpc-js": "^1.14.1",

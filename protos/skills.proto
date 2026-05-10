@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package skills;
+
+service SkillsService {
+    rpc AnalyzeSkillGap (SkillGapRequest) returns (SkillGapResponse);
+    rpc RecommendTraining (TrainingRequest) returns (TrainingResponse);
+}
+
+message SkillGapRequest {
+    string job_seeker_id = 1;
+    string target_job_id = 2;
+    repeated string current_skills = 3;
+    repeated string required_skills = 4;
+}
+
+message SkillGapResponse {
+    repeated string missing_skills = 1;
+    string message = 2;
+}
+
+message TrainingRequest {
+    repeated string missing_skills = 1;
+}
+
+message TrainingResponse {
+    repeated string recommended_courses = 1;
+    string message = 2;
+}
