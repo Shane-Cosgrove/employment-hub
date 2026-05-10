@@ -59,6 +59,41 @@ function RecommendTraining(call, callback) {
     });         
 }   
 
+function SubmitSkillUpdates(call, callback) {
+    const receivedSkills = [];
+    let jobSeekerId = "";
+
+    call.on("data", (request) => {
+        if (request.job_seeker_id) {
+            jobSeekerId = request.job_seeker_id;
+        }
+
+        if (request.skill) {
+            receivedSkills.push(request.skill);
+        }
+    });
+
+    call.on("end", () => {
+        if (!jobSeekerId || receivedSkills.length === 0) {
+            return callback({
+                code: grpc.status.INVALID_ARGUMENT,
+                message: "job_seeker_id and at least one skill are required",
+            });
+        }
+
+        callback(null, {
+            job_seeker_id: jobSeekerId,
+            total_skills_received: receivedSkills.length,
+            received_skills: receivedSkills,
+            message: "Skill updates received successfully",
+        });
+    });
+
+    call.on("error", (error) => {
+        console.error("SubmitSkillUpdates stream error:", error.message);
+    });
+} 
+
 function registerWithRegistry() {
     const registryClient = new registryProto.RegistryService(
         "localhost:50050",
@@ -85,7 +120,8 @@ const server = new grpc.Server();
 
 server.addService(skillsProto.SkillsService.service, {
     AnalyzeSkillGap,
-    RecommendTraining,      
+    RecommendTraining,
+    SubmitSkillUpdates,      
 });
 
 server.bindAsync(
