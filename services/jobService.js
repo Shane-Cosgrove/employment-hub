@@ -91,6 +91,52 @@ function FindMatches(call) {
     call.end();
 }
 
+function LiveJobAlerts(call) {
+    call.on("data", (request) => {
+        const { job_seeker_id, preferred_skill } = request;
+
+        if (!job_seeker_id || !preferred_skill) {
+            call.write({
+                job_id: "ERROR",
+                title: "Missing job_seeker_id or preferred_skill",
+                match_score: 0,
+            });
+            return;
+        }
+
+        const matchingJobs = jobs.filter((job) =>
+            job.required_skills.includes(preferred_skill)
+    );
+
+    if (matchingJobs.length === 0) {
+        call.write({
+            job_id: "NONE",
+            title: `No jobs found for skill: ${preferred_skill}`,
+            match_score: 0,
+        });
+        return;
+    }
+
+    matchingJobs.forEach((job) => {
+        call.write({
+            job_id: job.job_id,
+            title: job.title,
+            match_score: 100,
+        });
+    });
+});
+
+call.on("end", () => {
+    call.end();
+});
+
+call.on("error", (error)=> {
+    console.error("LiveJobAlerts error:", error.message);
+});
+}
+
+
+
 function registerWithRegistry() {
     const registryClient = new registryProto.RegistryService(
         "localhost:50050",
@@ -119,6 +165,7 @@ server.addService(jobProto.job.JobService.service, {
     RegisterJobSeeker,
     PostJob,
     FindMatches,
+    LiveJobAlerts,
 });
 
 server.bindAsync(
